@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,7 +11,21 @@
 		6A0E8B6B28BBC30E0045FD9E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0E8B6A28BBC30E0045FD9E /* ContentView.swift */; };
 		6A0E8B6D28BBC30E0045FD9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A0E8B6C28BBC30E0045FD9E /* Assets.xcassets */; };
 		6A0E8B7028BBC30E0045FD9E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A0E8B6F28BBC30E0045FD9E /* Preview Assets.xcassets */; };
+		6A0E8B8628BBC3CC0045FD9E /* OpenCastSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0E8B8128BBC3AC0045FD9E /* OpenCastSwift.framework */; };
+		6A0E8C2528BBE8D60045FD9E /* CastScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0E8C2428BBE8D50045FD9E /* CastScanner.swift */; };
+		6A0E8C2928BBEDE30045FD9E /* AppGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0E8C2828BBEDE30045FD9E /* AppGlobals.swift */; };
+		6A0E8C2B28BC8AEA0045FD9E /* CastConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0E8C2A28BC8AEA0045FD9E /* CastConnection.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6A0E8B8028BBC3AC0045FD9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A0E8B7A28BBC3AC0045FD9E /* OpenCastSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DD674A381DB7E83500E1FC24;
+			remoteInfo = "OpenCastSwift Mac";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6A0E8B6528BBC30E0045FD9E /* CastMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CastMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -20,6 +34,10 @@
 		6A0E8B6C28BBC30E0045FD9E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A0E8B6F28BBC30E0045FD9E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6A0E8B7128BBC30E0045FD9E /* CastMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CastMac.entitlements; sourceTree = "<group>"; };
+		6A0E8B7A28BBC3AC0045FD9E /* OpenCastSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenCastSwift.xcodeproj; path = ../../OpenCastSwift/OpenCastSwift.xcodeproj; sourceTree = "<group>"; };
+		6A0E8C2428BBE8D50045FD9E /* CastScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastScanner.swift; sourceTree = "<group>"; };
+		6A0E8C2828BBEDE30045FD9E /* AppGlobals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGlobals.swift; sourceTree = "<group>"; };
+		6A0E8C2A28BC8AEA0045FD9E /* CastConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastConnection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A0E8B8628BBC3CC0045FD9E /* OpenCastSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +57,7 @@
 			children = (
 				6A0E8B6728BBC30E0045FD9E /* CastMac */,
 				6A0E8B6628BBC30E0045FD9E /* Products */,
+				6A0E8B7928BBC3AC0045FD9E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,9 +74,12 @@
 			children = (
 				6A0E8B6828BBC30E0045FD9E /* CastMacApp.swift */,
 				6A0E8B6A28BBC30E0045FD9E /* ContentView.swift */,
+				6A0E8C2428BBE8D50045FD9E /* CastScanner.swift */,
 				6A0E8B6C28BBC30E0045FD9E /* Assets.xcassets */,
 				6A0E8B7128BBC30E0045FD9E /* CastMac.entitlements */,
 				6A0E8B6E28BBC30E0045FD9E /* Preview Content */,
+				6A0E8C2828BBEDE30045FD9E /* AppGlobals.swift */,
+				6A0E8C2A28BC8AEA0045FD9E /* CastConnection.swift */,
 			);
 			path = CastMac;
 			sourceTree = "<group>";
@@ -67,6 +90,22 @@
 				6A0E8B6F28BBC30E0045FD9E /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		6A0E8B7928BBC3AC0045FD9E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6A0E8B7A28BBC3AC0045FD9E /* OpenCastSwift.xcodeproj */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6A0E8B7B28BBC3AC0045FD9E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A0E8B8128BBC3AC0045FD9E /* OpenCastSwift.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -105,7 +144,7 @@
 				};
 			};
 			buildConfigurationList = 6A0E8B6028BBC30E0045FD9E /* Build configuration list for PBXProject "CastMac" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -115,12 +154,28 @@
 			mainGroup = 6A0E8B5C28BBC30E0045FD9E;
 			productRefGroup = 6A0E8B6628BBC30E0045FD9E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6A0E8B7B28BBC3AC0045FD9E /* Products */;
+					ProjectRef = 6A0E8B7A28BBC3AC0045FD9E /* OpenCastSwift.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6A0E8B6428BBC30E0045FD9E /* CastMac */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6A0E8B8128BBC3AC0045FD9E /* OpenCastSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenCastSwift.framework;
+			remoteRef = 6A0E8B8028BBC3AC0045FD9E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6A0E8B6328BBC30E0045FD9E /* Resources */ = {
@@ -139,8 +194,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A0E8C2928BBEDE30045FD9E /* AppGlobals.swift in Sources */,
+				6A0E8C2528BBE8D60045FD9E /* CastScanner.swift in Sources */,
 				6A0E8B6B28BBC30E0045FD9E /* ContentView.swift in Sources */,
 				6A0E8B6928BBC30E0045FD9E /* CastMacApp.swift in Sources */,
+				6A0E8C2B28BC8AEA0045FD9E /* CastConnection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
