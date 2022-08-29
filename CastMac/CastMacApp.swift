@@ -7,6 +7,7 @@
 
 import SwiftUI
 import OpenCastSwift
+import ScreenCaptureKit
 
 @main
 struct CastMacApp: App {

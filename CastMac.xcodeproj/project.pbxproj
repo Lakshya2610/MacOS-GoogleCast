@@ -15,6 +15,7 @@
 		6A0E8C2528BBE8D60045FD9E /* CastScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0E8C2428BBE8D50045FD9E /* CastScanner.swift */; };
 		6A0E8C2928BBEDE30045FD9E /* AppGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0E8C2828BBEDE30045FD9E /* AppGlobals.swift */; };
 		6A0E8C2B28BC8AEA0045FD9E /* CastConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0E8C2A28BC8AEA0045FD9E /* CastConnection.swift */; };
+		6A0E8C2D28BCA7ED0045FD9E /* ScreenSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0E8C2C28BCA7ED0045FD9E /* ScreenSharing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		6A0E8C2428BBE8D50045FD9E /* CastScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastScanner.swift; sourceTree = "<group>"; };
 		6A0E8C2828BBEDE30045FD9E /* AppGlobals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGlobals.swift; sourceTree = "<group>"; };
 		6A0E8C2A28BC8AEA0045FD9E /* CastConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastConnection.swift; sourceTree = "<group>"; };
+		6A0E8C2C28BCA7ED0045FD9E /* ScreenSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSharing.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				6A0E8B6E28BBC30E0045FD9E /* Preview Content */,
 				6A0E8C2828BBEDE30045FD9E /* AppGlobals.swift */,
 				6A0E8C2A28BC8AEA0045FD9E /* CastConnection.swift */,
+				6A0E8C2C28BCA7ED0045FD9E /* ScreenSharing.swift */,
 			);
 			path = CastMac;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A0E8C2D28BCA7ED0045FD9E /* ScreenSharing.swift in Sources */,
 				6A0E8C2928BBEDE30045FD9E /* AppGlobals.swift in Sources */,
 				6A0E8C2528BBE8D60045FD9E /* CastScanner.swift in Sources */,
 				6A0E8B6B28BBC30E0045FD9E /* ContentView.swift in Sources */,

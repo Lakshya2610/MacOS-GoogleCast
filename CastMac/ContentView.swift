@@ -36,9 +36,15 @@ struct ContentView: View {
             UpdateDeviceList()
         }.padding()
         
-        ScanButton()
-        Button("Disconnect", action: DisconnectFromClient)
-        Button("Media Player", action: { TryLaunchMediaPlayer(media: media) })
+        HStack(content: {
+            CastButtons()
+        })
+        
+        Spacer()
+        
+        HStack(alignment: VerticalAlignment.center, spacing: 10.0, content: {
+            ScreenShareButtons()
+        })
     }
 }
 
@@ -54,13 +60,28 @@ let media = CastMedia(title: "Test media",
                         autoplay: true,
                         currentTime: 0)
 
-struct ScanButton : View
+struct CastButtons : View
 {
     var body: some View
     {
-        Button("Scan", action: CastScanner.instance.ScanForCastDevices).padding()
+        Button("Scan", action: CastScanner.instance.ScanForCastDevices)
+        Button("Disconnect", action: DisconnectFromClient)
+        Button("Media Player", action: { TryLaunchMediaPlayer(media: media) })
     }
 }
+
+struct ScreenShareButtons : View
+{
+    var body: some View
+    {
+        Button("Refresh Displays", action: {
+            SCMgr.RefreshSharableContent()
+        })
+        Button("Screen Share", action: ScreenShare)
+        Button("Stop Screen Share", action: StopScreenShare)
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
