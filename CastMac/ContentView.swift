@@ -10,9 +10,11 @@ import OpenCastSwift
 
 struct ContentView: View {
     
-    let devicelistWatch = NotificationCenter.default.publisher(for: CastScanner.DeviceListUpdated)
+    let devicelistUpdated = NotificationCenter.default.publisher(for: CastScanner.DeviceListUpdated)
+    let newFrameReady = NotificationCenter.default.publisher(for: NextFrameReady).receive(on: RunLoop.main)
     
     @State var devicelist: [ CastDeviceInstance ] = []
+    @State var screenCaptureFrame: Image = Image("nyc")
     
     private func UpdateDeviceList()
     {
@@ -24,6 +26,19 @@ struct ContentView: View {
         }
     }
     
+    private func OnNewSCFrame()
+    {
+        if (lastFrame == nil)
+        {
+            return
+        }
+        
+        let nsImgRep = NSCIImageRep(ciImage: lastFrame!)
+        let nsImg = NSImage(size: nsImgRep.size)
+        nsImg.addRepresentation(nsImgRep)
+        screenCaptureFrame = Image(nsImage: nsImg)
+    }
+    
     var body: some View {
         List
         {
@@ -32,9 +47,13 @@ struct ContentView: View {
                     ConnectToDevice(device: device.instance)
                 })
             }
-        }.onReceive(devicelistWatch) { (output) in
+        }.onReceive(devicelistUpdated) { (output) in
             UpdateDeviceList()
         }.padding()
+        
+        screenCaptureFrame.resizable().scaledToFit().onReceive(newFrameReady) { _ in
+            OnNewSCFrame()
+        }
         
         HStack(content: {
             CastButtons()
