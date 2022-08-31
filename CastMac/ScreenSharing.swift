@@ -135,7 +135,11 @@ class SCOutputHandler : NSObject, SCStreamOutput
         // Determine which type of data the sample buffer contains.
         switch type {
         case .screen:
-           let _ = ProcessVideoBuffer(buffer: sampleBuffer)
+           let frame = ProcessVideoBuffer(buffer: sampleBuffer)
+            if (frame != nil && UploadClient.instance.GetState() == UploadClientState.CONNECTED)
+            {
+                UploadClient.instance.SendFrame(frame: frame!)
+            }
         @unknown default:
             return
         }
@@ -188,8 +192,8 @@ public func ScreenShare()
     
     SCMgr.StreamConfig.showsCursor = true
     SCMgr.StreamConfig.pixelFormat = SCREEN_CAPTURE_VIDEO_FORMAT
-    SCMgr.StreamConfig.width = Int(window!.frame.width) * 2
-    SCMgr.StreamConfig.height = Int(window!.frame.height) * 2
+    SCMgr.StreamConfig.width = SCMgr.SharableDisplays[0].width
+    SCMgr.StreamConfig.height = SCMgr.SharableDisplays[0].height
     SCMgr.StreamConfig.minimumFrameInterval = CMTime(value: SCREEN_CAPTURE_FPS, timescale: 60)
     SCMgr.StreamConfig.queueDepth = 3
     
@@ -203,6 +207,8 @@ public func ScreenShare()
     SCMgr.Stream = stream
     
     try! stream.addStreamOutput(SCMgr.ScreenShareOuputReciever, type: SCStreamOutputType.screen, sampleHandlerQueue: nil)
+    
+    UploadClient.instance.ConnectToRelay()
     
     stream.startCapture(completionHandler: { error in
         if ( error != nil )

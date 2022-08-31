@@ -13,7 +13,9 @@ var Client: CastClient? = nil
 var AppMonitor: CastAppMonitor? = nil
 let APP_MONITOR_INTERVAL_S: UInt8 = 1
 let SCREEN_CAPTURE_VIDEO_FORMAT: OSType = kCVPixelFormatType_32BGRA
-let SCREEN_CAPTURE_FPS: CMTimeValue = 60
+let SCREEN_CAPTURE_FPS: CMTimeValue = 10
+let RELAY_SERVER_URL: String = "ws://localhost:8080/relay"
+let RELAY_AUTH_PASSWORD = 0
 
 func VOIDFUNC()
 {

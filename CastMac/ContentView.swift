@@ -67,7 +67,8 @@ struct ContentView: View {
     }
 }
 
-let videoURL = URL(string: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")!
+let videoURL = URL(string: "http://192.168.1.44:8000/video")!
+//let videoURL = URL(string: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")!
 let posterURL = URL(string: "https://i.imgur.com/GPgh0AN.jpg")!
 
 // create a CastMedia object to hold media information
@@ -98,6 +99,7 @@ struct ScreenShareButtons : View
         })
         Button("Screen Share", action: ScreenShare)
         Button("Stop Screen Share", action: StopScreenShare)
+        Button("Connect Relay", action: UploadClient.instance.ConnectToRelay)
     }
 }
 
