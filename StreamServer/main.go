@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io"
 	"net/http"
 
 	"github.com/gorilla/websocket"
@@ -11,6 +10,7 @@ import (
 
 var listenAddr string
 var WSConnUpgrader = websocket.Upgrader{CheckOrigin: CheckWSConnectionOrigin}
+var shouldRecordStream bool
 
 var relay Relay = Relay{state: RELAY_INIT}
 
@@ -34,6 +34,7 @@ func CheckWSConnectionOrigin(r *http.Request) bool {
 
 func init() {
 	flag.StringVar(&listenAddr, "addr", ":8080", "http service address")
+	flag.BoolVar(&shouldRecordStream, "record", false, "record incoming stream")
 }
 
 func VideoRelay(response http.ResponseWriter, request *http.Request) {
@@ -50,7 +51,7 @@ func VideoRelay(response http.ResponseWriter, request *http.Request) {
 	}
 
 	relay = Relay{state: RELAY_CONNECTING, idx: 0}
-	go relay.Run(&Client{connection: ws})
+	go relay.Run(&Client{connection: ws, shouldRecordStream: shouldRecordStream})
 }
 
 func GetVideo(response http.ResponseWriter, request *http.Request) {
@@ -65,20 +66,16 @@ func GetVideo(response http.ResponseWriter, request *http.Request) {
 	response.Write(*frame.data)
 }
 
-func Default(response http.ResponseWriter, request *http.Request) {
-	Log(PrintChannelInfo, "Got a new request for default route")
-	io.WriteString(response, "Hello, world!")
-}
-
-func TestRoute(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, "test.mp4")
+func AllowCORS(h http.Handler) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		h.ServeHTTP(w, r)
+	}
 }
 
 func main() {
-	http.HandleFunc("/", Default)
 	http.HandleFunc("/relay", VideoRelay)
-	http.HandleFunc("/video", GetVideo)
-	http.HandleFunc("/test", TestRoute)
+	http.Handle("/", AllowCORS(http.FileServer(http.Dir("media"))))
 
 	Log(PrintChannelInfo, "Server is starting.  Press CTRL-C to exit.")
 	err := http.ListenAndServe(listenAddr, nil)

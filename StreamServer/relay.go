@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"os"
 
 	"github.com/gorilla/websocket"
 )
@@ -13,6 +14,9 @@ type Client struct {
 	streamWidth     int
 	streamHeight    int
 	framesProcessed uint64
+
+	shouldRecordStream  bool
+	recordingFileHandle *os.File
 }
 
 type RelayState uint8
@@ -29,6 +33,8 @@ const AUTH_MSG string = "RequestPassword"
 const STREAM_METADATA_MSG string = "RequestMetadata"
 const READY_TO_RECV_FRAMES_MSG string = "ReadyToRecv"
 
+const RECORDING_FILENAME string = "recording.raw"
+
 type Relay struct {
 	idx          int64
 	uploadClient *Client
@@ -44,6 +50,30 @@ func (client *Client) Send(messageID int, message []byte) bool {
 	}
 
 	return true
+}
+
+func (client *Client) InitStreamRecording() {
+	f, err := os.Create(RECORDING_FILENAME)
+	if err != nil {
+		Log(PrintChannelError, "Failed to open file for recording, stream won't be recorded")
+		Log(PrintChannelError, err.Error())
+		return
+	}
+
+	client.recordingFileHandle = f
+}
+
+func (client *Client) SaveFrame(data *[]byte) {
+	if client.recordingFileHandle == nil {
+		Log(PrintChannelError, "Tried to write to recording file when it wasn't open")
+		return
+	}
+
+	_, err := client.recordingFileHandle.Write(*data)
+	if err != nil {
+		Log(PrintChannelError, "Error writing frame to recording file")
+		Log(PrintChannelError, err.Error())
+	}
 }
 
 func (relay *Relay) Run(client *Client) {
@@ -96,6 +126,9 @@ func (relay *Relay) Run(client *Client) {
 	}
 
 	client.framesProcessed = 0
+	if client.shouldRecordStream {
+		client.InitStreamRecording()
+	}
 	for {
 		ty, data, err = client.connection.ReadMessage()
 		if err != nil || ty != websocket.BinaryMessage {
@@ -106,6 +139,10 @@ func (relay *Relay) Run(client *Client) {
 
 		Log(PrintChannelInfo, fmt.Sprintf("New frame received, size: %d", len(data)))
 		frameQueue.Add(&data)
+
+		if client.shouldRecordStream {
+			client.SaveFrame(&data)
+		}
 		client.framesProcessed++
 	}
 }

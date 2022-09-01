@@ -1,0 +1,1 @@
+ffmpeg -i sample.mp4 -c:v libx264 -x264opts keyint=60:no-scenecut -s 1280x720 -r 30 -profile:v high -c:a aac -hls_list_size 6 out.m3u8

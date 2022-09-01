@@ -67,7 +67,7 @@ struct ContentView: View {
     }
 }
 
-let videoURL = URL(string: "http://192.168.1.44:8000/video")!
+let videoURL = URL(string: "http://192.168.1.44:8080/out.m3u8")!
 //let videoURL = URL(string: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")!
 let posterURL = URL(string: "https://i.imgur.com/GPgh0AN.jpg")!
 
@@ -75,8 +75,8 @@ let posterURL = URL(string: "https://i.imgur.com/GPgh0AN.jpg")!
 let media = CastMedia(title: "Test media",
                         url: videoURL,
                         poster: posterURL,
-                        contentType: "video/mp4",
-                        streamType: CastMediaStreamType.buffered,
+                        contentType: "application/x-mpegurl",
+                        streamType: CastMediaStreamType.live,
                         autoplay: true,
                         currentTime: 0)
 
