@@ -51,9 +51,9 @@ struct ContentView: View {
             UpdateDeviceList()
         }.padding()
         
-        screenCaptureFrame.resizable().scaledToFit().onReceive(newFrameReady) { _ in
-            OnNewSCFrame()
-        }
+//        screenCaptureFrame.resizable().scaledToFit().onReceive(newFrameReady) { _ in
+//            OnNewSCFrame()
+//        }
         
         HStack(content: {
             CastButtons()

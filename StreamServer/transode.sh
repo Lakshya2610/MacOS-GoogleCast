@@ -1,1 +1,1 @@
-ffmpeg -i sample.mp4 -c:v libx264 -x264opts keyint=60:no-scenecut -s 1280x720 -r 30 -profile:v high -c:a aac -hls_list_size 6 out.m3u8
+cat recording.raw | ffmpeg -v verbose -f rawvideo -pix_fmt bgra -video_size 1440x900 -i pipe:0 -c:v libx264 -x264opts keyint=10:no-scenecut -s 1440x900 -r 10 -profile:v high444 -hls_list_size 6 out.m3u8

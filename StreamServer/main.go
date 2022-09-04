@@ -11,6 +11,8 @@ import (
 var listenAddr string
 var WSConnUpgrader = websocket.Upgrader{CheckOrigin: CheckWSConnectionOrigin}
 var shouldRecordStream bool
+var newFrameNotification chan bool
+var transcoder *Transcoder
 
 var relay Relay = Relay{state: RELAY_INIT}
 
@@ -51,7 +53,7 @@ func VideoRelay(response http.ResponseWriter, request *http.Request) {
 	}
 
 	relay = Relay{state: RELAY_CONNECTING, idx: 0}
-	go relay.Run(&Client{connection: ws, shouldRecordStream: shouldRecordStream})
+	go relay.Run(&Client{connection: ws, shouldRecordStream: shouldRecordStream}, newFrameNotification)
 }
 
 func GetVideo(response http.ResponseWriter, request *http.Request) {
@@ -74,8 +76,18 @@ func AllowCORS(h http.Handler) http.HandlerFunc {
 }
 
 func main() {
+	flag.Parse()
+	newFrameNotification = make(chan bool)
+	if shouldRecordStream {
+		Log(PrintChannelInfo, "Recording enabled")
+	}
+
 	http.HandleFunc("/relay", VideoRelay)
 	http.Handle("/", AllowCORS(http.FileServer(http.Dir("media"))))
+
+	transcoder = NewTranscoder(2)
+	// transcoder.PlayRecording()
+	go transcoder.Run(newFrameNotification)
 
 	Log(PrintChannelInfo, "Server is starting.  Press CTRL-C to exit.")
 	err := http.ListenAndServe(listenAddr, nil)

@@ -19,6 +19,8 @@ type Client struct {
 	recordingFileHandle *os.File
 }
 
+const CLIENT_FRAME_NUM_COLOR_CHANNELS = 4
+
 type RelayState uint8
 
 const (
@@ -76,7 +78,7 @@ func (client *Client) SaveFrame(data *[]byte) {
 	}
 }
 
-func (relay *Relay) Run(client *Client) {
+func (relay *Relay) Run(client *Client, newFrameNotification chan<- bool) {
 	relay.uploadClient = client
 	relay.state = RELAY_CONNECTING
 
@@ -137,8 +139,14 @@ func (relay *Relay) Run(client *Client) {
 			break
 		}
 
-		Log(PrintChannelInfo, fmt.Sprintf("New frame received, size: %d", len(data)))
-		frameQueue.Add(&data)
+		// Log(PrintChannelInfo, fmt.Sprintf("New frame received, size: %d", len(data)))
+		frameBytes := data[:client.streamHeight*client.streamWidth*CLIENT_FRAME_NUM_COLOR_CHANNELS]
+		frameQueue.Add(&frameBytes)
+
+		select {
+		case newFrameNotification <- true:
+		default:
+		}
 
 		if client.shouldRecordStream {
 			client.SaveFrame(&data)

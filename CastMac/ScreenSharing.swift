@@ -180,21 +180,18 @@ class ScreenShareStreamEventsHandler : NSObject, SCStreamDelegate
 
 public func ScreenShare()
 {
-    let window = SCMgr.SharableWindows.first(where: { win in
-        return win.title == "Desktop"
-    })
-    
-    if (window == nil)
+    if (SCMgr.SharableDisplays.count == 0)
     {
-        print("No desktop window found, stopping screen capture")
+        print(printlabel, "No sharable displays found, can't start capture")
         return
     }
     
+    let display = SCMgr.SharableDisplays[0]
     SCMgr.StreamConfig.showsCursor = true
     SCMgr.StreamConfig.pixelFormat = SCREEN_CAPTURE_VIDEO_FORMAT
-    SCMgr.StreamConfig.width = SCMgr.SharableDisplays[0].width
-    SCMgr.StreamConfig.height = SCMgr.SharableDisplays[0].height
-    SCMgr.StreamConfig.minimumFrameInterval = CMTime(value: SCREEN_CAPTURE_FPS, timescale: 60)
+    SCMgr.StreamConfig.width = display.width
+    SCMgr.StreamConfig.height = display.height
+    SCMgr.StreamConfig.minimumFrameInterval = CMTime(value: 1, timescale: SCREEN_CAPTURE_FPS)
     SCMgr.StreamConfig.queueDepth = 3
     
     // Note: SCContentFilter/SCStream is bugged, it doesn't work when there are 0 excludingApplications & 0 exceptingWindows
@@ -202,7 +199,7 @@ public func ScreenShare()
         Bundle.main.bundleIdentifier == app.bundleIdentifier
     }
     
-    let filter = SCContentFilter(display: SCMgr.SharableDisplays[0], excludingApplications: excludedApps, exceptingWindows: [])
+    let filter = SCContentFilter(display: display, excludingApplications: excludedApps, exceptingWindows: [])
     let stream = SCStream(filter: filter, configuration: SCMgr.StreamConfig, delegate: ScreenShareStreamEventsHandler.instance)
     SCMgr.Stream = stream
     
