@@ -50,7 +50,8 @@ struct ContentView: View {
         }.onReceive(devicelistUpdated) { (output) in
             UpdateDeviceList()
         }.padding()
-        
+
+//        not ideal, but easy for quick (& laggy) preview of the screen capture
 //        screenCaptureFrame.resizable().scaledToFit().onReceive(newFrameReady) { _ in
 //            OnNewSCFrame()
 //        }
@@ -67,19 +68,6 @@ struct ContentView: View {
     }
 }
 
-let videoURL = URL(string: "http://192.168.1.44:8080/out.m3u8")!
-//let videoURL = URL(string: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")!
-let posterURL = URL(string: "https://i.imgur.com/GPgh0AN.jpg")!
-
-// create a CastMedia object to hold media information
-let media = CastMedia(title: "Test media",
-                        url: videoURL,
-                        poster: posterURL,
-                        contentType: "application/x-mpegurl",
-                        streamType: CastMediaStreamType.live,
-                        autoplay: true,
-                        currentTime: 0)
-
 struct CastButtons : View
 {
     var body: some View
@@ -94,12 +82,9 @@ struct ScreenShareButtons : View
 {
     var body: some View
     {
-        Button("Refresh Displays", action: {
-            SCMgr.RefreshSharableContent()
-        })
+        Button("Refresh Displays", action: SCMgr.RefreshSharableContent)
         Button("Screen Share", action: ScreenShare)
         Button("Stop Screen Share", action: StopScreenShare)
-        Button("Connect Relay", action: UploadClient.instance.ConnectToRelay)
     }
 }
 

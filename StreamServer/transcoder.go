@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"io"
 	"io/fs"
 	"os"
@@ -146,7 +145,7 @@ func NewTranscoder(segmentsToRetain int) *Transcoder {
 		"-r", "60",
 		"-profile:v", "high444",
 		"-hls_time", "1",
-		"-hls_list_size", strconv.Itoa(segmentsToRetain), "/Users/lakshya/Desktop/CastMac/CastMac/StreamServer/media/out.m3u8")
+		"-hls_list_size", strconv.Itoa(segmentsToRetain), "media/out.m3u8")
 
 	inputStream, err := cmd.StdinPipe()
 	if err != nil {
@@ -169,28 +168,4 @@ func NewTranscoder(segmentsToRetain int) *Transcoder {
 	}
 
 	return &transcoder
-}
-
-func (t *Transcoder) PlayRecording() {
-	f, err := os.Open(RECORDING_FILENAME)
-	defer f.Close()
-	if err != nil {
-		Log(PrintChannelError, "Failed to open recording file for playback")
-		Log(PrintChannelError, err.Error())
-		return
-	}
-
-	info, _ := f.Stat()
-	size := info.Size()
-
-	var data []byte = make([]byte, size)
-	_, err = f.Read(data)
-	if err != nil {
-		Log(PrintChannelError, err.Error())
-		return
-	}
-
-	buf := bytes.Buffer{}
-	t.process.Stdin = &buf
-	buf.Write(data)
 }

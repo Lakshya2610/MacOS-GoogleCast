@@ -56,18 +56,6 @@ func VideoRelay(response http.ResponseWriter, request *http.Request) {
 	go relay.Run(&Client{connection: ws, shouldRecordStream: shouldRecordStream}, newFrameNotification)
 }
 
-func GetVideo(response http.ResponseWriter, request *http.Request) {
-	response.Header().Set("Content-Type", "application/octet-stream")
-	response.WriteHeader(http.StatusPartialContent)
-
-	frame := frameQueue.Remove()
-	if frame == nil {
-		return
-	}
-
-	response.Write(*frame.data)
-}
-
 func AllowCORS(h http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -86,7 +74,6 @@ func main() {
 	http.Handle("/", AllowCORS(http.FileServer(http.Dir("media"))))
 
 	transcoder = NewTranscoder(2)
-	// transcoder.PlayRecording()
 	go transcoder.Run(newFrameNotification)
 
 	Log(PrintChannelInfo, "Server is starting.  Press CTRL-C to exit.")
